@@ -4,5 +4,6 @@
 
 /backend/obj
 
+/backend/.azure
 /frontend/node_modules
 /frontend/.env
