@@ -1,0 +1,1 @@
+export const regions = ["Pacific Northwest","Ontario","Atlantic","Midwest","Pacific","Central","Southeast","Northeast","North Mexico","South Mexico","Caribbean","Europe","No region set."]
