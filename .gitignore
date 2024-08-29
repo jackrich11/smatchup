@@ -9,3 +9,4 @@
 *.zip
 /frontend/node_modules
 /frontend/.env
+/frontend/swa-cli.config.json
