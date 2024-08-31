@@ -3,10 +3,12 @@
 /backend/bin
 
 /backend/obj
-
+/backend/.DS_Store
 /backend/.azure
 /backend/backend.dll
 *.zip
 /frontend/node_modules
 /frontend/.env
 /frontend/swa-cli.config.json
+
+deploy.sh
