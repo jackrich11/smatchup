@@ -6,7 +6,7 @@ import { skillLevels } from "../../types/SkillLevels"
 import { Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select } from "@mui/material"
 import { useLocation, useNavigate, useOutletContext } from "react-router-dom"
 import axios from "axios"
-import { getEnvVar } from "../../Root"
+import { getEnvVar } from "../../utils"
 
 export default function UpdateSettingsForm() {
     const nav = useNavigate()

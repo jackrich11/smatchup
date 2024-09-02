@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { Tooltip } from '@mui/material';
-import { getEnvVar } from '../Root';
+import { getEnvVar } from '../utils';
 
 const pages = ['Matches', 'Stats', 'Settings'];
 

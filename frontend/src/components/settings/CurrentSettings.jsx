@@ -4,7 +4,7 @@ import { useNavigate, useOutletContext } from "react-router-dom"
 import axios from "axios"
 import { Button } from "@mui/material"
 import Settings from "./Settings"
-import { getEnvVar } from "../../Root.jsx"
+import { getEnvVar } from "../../utils"
 
 export default function CurrentSettings() {
     const nav = useNavigate()

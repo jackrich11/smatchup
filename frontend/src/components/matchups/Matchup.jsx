@@ -5,8 +5,7 @@ import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { useEffect, useState } from "react";
 import OwnedMatchup from "./OwnedMatchup";
 import VisitingMatchup from "./VisitingMatchup";
-import { getEnvVar } from "../../Root"
-
+import { getEnvVar } from "../../utils";
 
 async function closeMatchup(matchupId) {
     try {

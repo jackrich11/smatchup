@@ -3,8 +3,7 @@ import { Box } from "@mui/material"
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr"
-import { getEnvVar } from "../../Root"
-
+import { getEnvVar } from "../../utils"
 
 const getMatchups = async (setMatchups) => {
     try {

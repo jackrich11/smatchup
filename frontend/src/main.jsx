@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { getEnvVar } from './Root.jsx'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Root from './Root.jsx'
@@ -14,6 +13,7 @@ import Settings from './views/Settings.jsx'
 import Matchup from './components/matchups/Matchup.jsx'
 import UpdateSettingsForm from './components/settings/UpdateSettingsForm.jsx'
 import CurrentSettings from './components/settings/CurrentSettings.jsx'
+import { getEnvVar } from './utils.js'
 
 const router = createBrowserRouter([
   {

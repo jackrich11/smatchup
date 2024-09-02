@@ -1,9 +1,9 @@
 import { Autocomplete, TextField } from "@mui/material";
-import { getEnvVar } from "../../Root"
 import Characters from "../../types/Characters";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import { getEnvVar } from "../../utils";
 
 export async function action(data) {
     if(!data.canPlay.length || !data.lookingFor.length) {
