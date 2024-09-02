@@ -4,6 +4,7 @@ import { useNavigate, useOutletContext } from "react-router-dom"
 import axios from "axios"
 import { Button } from "@mui/material"
 import Settings from "./Settings"
+import { getEnvVar } from "../../Root.jsx"
 
 export default function CurrentSettings() {
     const nav = useNavigate()
@@ -13,7 +14,7 @@ export default function CurrentSettings() {
     useEffect(() => {
         const getSettings = async () => {
             try {
-                let res = await axios.get(import.meta.env.VITE_BASE_URL + "/api/settings/" + currUser.Username, { withCredentials: true })
+                let res = await axios.get(getEnvVar("BASE_URL") + "/api/settings/" + currUser.Username, { withCredentials: true })
                 setSettings(res.data)
                 console.log(res)
                 console.log("got user settings")

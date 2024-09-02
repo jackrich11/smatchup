@@ -12,6 +12,7 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { Tooltip } from '@mui/material';
+import { getEnvVar } from '../Root';
 
 const pages = ['Matches', 'Stats', 'Settings'];
 
@@ -137,7 +138,7 @@ function Header({ currUser, isLoggedIn }) {
             {!isLoggedIn && 
             <Button 
                 variant='outline' 
-                href={import.meta.env.VITE_DISCORD_URL}
+                href={getEnvVar("DISCORD_URL")}
                 sx={{
                     bgcolor: "indigo",
                     margin: 3,

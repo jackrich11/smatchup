@@ -5,10 +5,12 @@ import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { useEffect, useState } from "react";
 import OwnedMatchup from "./OwnedMatchup";
 import VisitingMatchup from "./VisitingMatchup";
+import { getEnvVar } from "../../Root"
+
 
 async function closeMatchup(matchupId) {
     try {
-        await axios.delete(import.meta.env.VITE_BASE_URL + "/api/matchups/" + matchupId, { withCredentials: true })
+        await axios.delete(getEnvVar("BASE_URL") + "/api/matchups/" + matchupId, { withCredentials: true })
         return true
     } catch(error) {
         return false
@@ -28,7 +30,7 @@ export default function Matchup() {
             let config = { withCredentials: true }
 
             try {
-                var res = await axios.put(import.meta.env.VITE_BASE_URL + "/api/matchups/" + matchup.matchupId + "/" + visitor, {}, config)
+                var res = await axios.put(getEnvVar("BASE_URL") + "/api/matchups/" + matchup.matchupId + "/" + visitor, {}, config)
                 console.log("Added visitor to matchup: " + res.data)
             } catch(error) {
                 console.log("Error: " + error.message)
@@ -39,7 +41,7 @@ export default function Matchup() {
             let config = { withCredentials: true }
 
             try {
-                var res = await axios.put(import.meta.env.VITE_BASE_URL + "/api/matchups/" + matchup.matchupId, {}, config)
+                var res = await axios.put(getEnvVar("BASE_URL") + "/api/matchups/" + matchup.matchupId, {}, config)
                 console.log("Removed visitor from matchup: " + res.data)
             } catch(error) {
                 console.log("Error: " + error.message)
@@ -52,7 +54,7 @@ export default function Matchup() {
         }
 
         const conn = new HubConnectionBuilder()
-        .withUrl(import.meta.env.VITE_BASE_URL + "/message")
+        .withUrl(getEnvVar("BASE_URL") + "/message")
         .configureLogging(LogLevel.Information)
         .build();
 

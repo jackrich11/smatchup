@@ -3,11 +3,12 @@ import { Box } from "@mui/material"
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr"
+import { getEnvVar } from "../../Root"
 
 
 const getMatchups = async (setMatchups) => {
     try {
-        let res = await axios.get(import.meta.env.VITE_BASE_URL + "/api/matchups", { withCredentials: true })
+        let res = await axios.get(getEnvVar("BASE_URL") + "/api/matchups", { withCredentials: true })
 
         console.log("Getting matchups: " + res.status)
         console.log(res.data)
@@ -36,7 +37,7 @@ export default function MatchupLanding() {
 
     useEffect(() => {
         const conn = new HubConnectionBuilder()
-        .withUrl(import.meta.env.VITE_BASE_URL + "/message")
+        .withUrl(getEnvVar("BASE_URL") + "/message")
         .configureLogging(LogLevel.Information)
         .build();
 

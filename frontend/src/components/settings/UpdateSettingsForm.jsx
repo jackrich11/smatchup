@@ -6,6 +6,7 @@ import { skillLevels } from "../../types/SkillLevels"
 import { Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select } from "@mui/material"
 import { useLocation, useNavigate, useOutletContext } from "react-router-dom"
 import axios from "axios"
+import { getEnvVar } from "../../Root"
 
 export default function UpdateSettingsForm() {
     const nav = useNavigate()
@@ -34,7 +35,7 @@ export default function UpdateSettingsForm() {
             withCredentials: true
         }
         try {
-            var res = await axios.post(import.meta.env.VITE_BASE_URL + "/api/settings", data, config)
+            var res = await axios.post(getEnvVar("BASE_URL") + "/api/settings", data, config)
             close()
             return true
         } catch(error) {

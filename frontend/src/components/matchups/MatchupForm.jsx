@@ -1,5 +1,5 @@
 import { Autocomplete, TextField } from "@mui/material";
-
+import { getEnvVar } from "../../Root"
 import Characters from "../../types/Characters";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -20,7 +20,7 @@ export async function action(data) {
         withCredentials: true
     }
     try {
-        var res = await axios.post(import.meta.env.VITE_BASE_URL + "/api/matchups", data, config)
+        var res = await axios.post(getEnvVar("BASE_URL") + "/api/matchups", data, config)
         console.log("Created matchup: " + res.data)
         return { success: true, matchup: res.data}
     } catch(error) {
