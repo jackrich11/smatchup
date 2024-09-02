@@ -3,8 +3,25 @@ import axios from "axios";
 import { Outlet, useLoaderData } from "react-router-dom";
 import Header from "./components/Header";
 
+export const getEnvVar = function(envVar) {
+    console.log("Is Prod? " + import.meta.env.PROD)
+    
+    if(!import.meta.env.PROD) {
+        envVar = "VITE_" + envVar
+    }
+    console.log("Fetching " + envVar)
+    console.log(import.meta.env.TEST_VAR)
+    console.log(process.env[envVar])
+    return import.meta.env[envVar]
+    
+}
+
 export async function loader() {
     try {
+        console.log("ENVS")
+        console.log(import.meta.env)
+        console.log(process.env)
+
         let res = await axios.get(import.meta.env.VITE_BASE_URL + "/api/user", { withCredentials: true })
 
         console.log("RootLoader: " + res.status)

@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { getEnvVar } from './Root.jsx'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Root from './Root.jsx'
@@ -14,6 +15,10 @@ import Matchup from './components/matchups/Matchup.jsx'
 import UpdateSettingsForm from './components/settings/UpdateSettingsForm.jsx'
 import CurrentSettings from './components/settings/CurrentSettings.jsx'
 
+//process.env can be read on azure from the env file
+// import.meta.env can read them on azure and locally but must start with VITE_
+// use a IS_DEV variable or something to differentiate
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -22,7 +27,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element:         <h1>Select a menu option or click on the Smatchup logo to see available matches!</h1>
+        element: <h1>Select a menu option or click on the Smatchup logo to see available matches! [DEV] TEST varr: {process.env.PROD}</h1>
       },
       {
         path: "matches",
