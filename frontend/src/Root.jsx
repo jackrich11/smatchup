@@ -6,15 +6,7 @@ import { getEnvVar } from "./utils";
 
 export async function loader() {
     try {
-        console.log("ENVS")
-        console.log(import.meta.env)
-        console.log(process.env)
-
         let res = await axios.get(getEnvVar("BASE_URL") + "/api/user", { withCredentials: true })
-
-        console.log("RootLoader: " + res.status)
-        console.log(res.data)
-    
         return res.data
     } catch(error) {
         console.log(error.message)

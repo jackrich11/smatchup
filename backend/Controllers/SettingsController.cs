@@ -22,12 +22,6 @@ public class SettingsController : ControllerBase {
         _sessionDao = factory.GetSessionDao();
     }
 
-    [HttpGet("test")]
-    public IActionResult TestEnv() {
-        return Ok(new { message = $"It's safe now! :)"});
-    }
-
-
     [HttpGet("settings/{username}")]
     public async Task<ActionResult<Settings>> GetSettings(string username) {
         Settings settings;
@@ -73,7 +67,7 @@ public class SettingsController : ControllerBase {
                 return Ok(newSettings);
             } catch(Exception e) {
                 _logger.LogError($"POST-/api/settings/: {e.Message}");
-                return StatusCode((int)HttpStatusCode.InternalServerError);
+                return StatusCode((int)HttpStatusCode.InternalServerError, new { error = e.Message });
             }
         } else {
             return Unauthorized(new { message = "Please log in with your Discord."});

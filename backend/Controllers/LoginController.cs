@@ -51,102 +51,6 @@ public class LoginController : ControllerBase {
         return NotFound(new { message = "No logged in user was found."});
     }
 
-    // [HttpGet("auth/callback")]
-    // public async Task<ActionResult<User>> SetCurrentUser(string code) {
-
-    //     TokenResponse? tokenResp;
-    //     string retVal;
-    //     try {
-    //         tokenResp = await SendTokenReq(new FormUrlEncodedContent(new[] {
-    //             new KeyValuePair<string, string>("grant_type", "authorization_code"),
-    //             new KeyValuePair<string, string>("code", code),
-    //             new KeyValuePair<string, string>("redirect_uri", _urlSettings.Value.ServerBaseUrl + "/api/auth/callback"),
-    //         }));
-    //         retVal = "AFTER CALL";
-    //     } catch(HttpRequestException e) {
-    //         _logger.LogError(e.Message);
-    //         retVal = "in catch block";
-    //         return BadRequest(e.Message + " 1 " + e.HttpRequestError);
-    //     }
-    //     System.Diagnostics.Trace.WriteLine("1");
-        
-
-
-    //     DiscordRestClient discordClient = new();
-    //     try
-    //     {
-    //         await discordClient.LoginAsync(TokenType.Bearer, tokenResp!.access_token);
-    //     } catch (Exception ex) {
-    //         return BadRequest(ex.Message + " login catch block");
-    //     }
-
-
-    //     _logger.LogInformation("Refreshing user access token.");
-    //     try {
-    //         tokenResp = await SendTokenReq(new FormUrlEncodedContent(new[] {
-    //             new KeyValuePair<string, string>("grant_type", "refresh_token"),
-    //             new KeyValuePair<string, string>("refresh_token", tokenResp!.refresh_token),
-    //         }));
-    //     } catch(HttpException e) {
-    //         _logger.LogError(e.Message);
-    //         return BadRequest(e.Message + "2");
-    //     }
-
-    //     try {
-    //         await discordClient.LoginAsync(TokenType.Bearer, tokenResp!.access_token);
-    //     } catch(Exception e) {
-    //         _logger.LogError(e.Message);
-    //         return BadRequest(e.Message + "3");
-    //     }
-        
-
-
-
-    //     var user = await _userDao.GetUser(discordClient.CurrentUser.Username);
-
-    //     if(user is null) {
-    //         user = new User() {
-    //             Id = discordClient.CurrentUser.Id,
-    //             Username = discordClient.CurrentUser.Username,
-    //             AvatarUrl = discordClient.CurrentUser.GetAvatarUrl(ImageFormat.Auto),
-    //             IsBanned = false,
-    //             Created = DateTime.Now
-    //         };
-
-    //         await _userDao.CreateUser(user);
-    //     }
-
-    //     //new session for user
-    //     var session = new Session
-    //     {
-    //         SessionId = Guid.NewGuid().ToString(),
-    //         UserID = user.Username
-    //     };
-
-    //     _logger.LogInformation("GUID: " + session.SessionId);
-
-    //     //create session cookie
-    //     var sessionCookieOpts = new CookieOptions
-    //     {
-    //         // Domain = "localhost",
-    //         HttpOnly = true,
-    //         IsEssential = true,
-    //         SameSite = SameSiteMode.Lax
-    //     };
-
-    //     Response.Cookies.Append("session-id", session.SessionId, sessionCookieOpts);
-
-    //     try {
-    //         await _sessionDao.DeleteAllUserSessions(user.Username);
-    //         await _sessionDao.SetSession(session);
-    //     } catch(Exception e) {
-    //         _logger.LogDebug($"Failed to write session. Message: {e.Message}");
-    //         return StatusCode((int)HttpStatusCode.InternalServerError);
-    //     }
-
-    //     return Redirect(_urlSettings.Value.ClientBaseUrl + "/matches");
-    // }
-
     [HttpGet("auth/callback")]
     public async Task<ActionResult<User>> SetCurrentUser(string code) {
 
@@ -171,93 +75,10 @@ public class LoginController : ControllerBase {
 
         } catch(HttpRequestException e) {
             _logger.LogError(e.Message);
-            return BadRequest(e.Message + " 1 " + e.HttpRequestError);
+            return BadRequest(new { error = e.Message });
         }
-        System.Diagnostics.Trace.WriteLine("1");
 
         return Redirect(_urlSettings.Value.ServerBaseUrl + "/api/login/" + tokenResp!.access_token);
-        
-        // DiscordRestClient discordClient = new();
-        // try
-        // {
-
-        //     await discordClient.LoginAsync(TokenType.Bearer, tokenResp!.access_token);
-        // } catch (Exception ex) {
-        //     return BadRequest(ex.Message + " login catch block " + tokenResp is not null ? tokenResp!.access_token : "NULL");
-        // }
-
-        // _logger.LogInformation("Refreshing user access token.");
-        // try {
-        //     HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, "token")
-        //     {
-        //         Content = new FormUrlEncodedContent(new[] {
-        //             new KeyValuePair<string, string>("grant_type", "refresh_token"),
-        //             new KeyValuePair<string, string>("refresh_token", tokenResp!.refresh_token),
-        //         })
-        //     };
-
-        //     req.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
-
-        //     var res = await _client.SendAsync(req);
-
-        //     res.EnsureSuccessStatusCode();
-
-        //     tokenResp = await res.Content.ReadFromJsonAsync<TokenResponse>();
-        // } catch(HttpException e) {
-        //     _logger.LogError(e.Message);
-        //     return BadRequest(e.Message + "2");
-        // }
-        
-        // User? user;
-        // try {
-        //     user = await _userDao.GetUser(discordClient.CurrentUser.Username);
-
-        //     if(user is null) {
-        //         user = new User() {
-        //             Id = discordClient.CurrentUser.Id,
-        //             Username = discordClient.CurrentUser.Username,
-        //             AvatarUrl = discordClient.CurrentUser.GetAvatarUrl(ImageFormat.Auto),
-        //             IsBanned = false,
-        //             Created = DateTime.Now
-        //         };
-
-        //         await _userDao.CreateUser(user);
-        //     }
-        // } catch(Exception e) {
-        //     _logger.LogError(e.Message);
-        //     return StatusCode((int)HttpStatusCode.InternalServerError);
-        // }
-
-
-        // //new session for user
-        // var session = new Session
-        // {
-        //     SessionId = Guid.NewGuid().ToString(),
-        //     UserID = user.Username
-        // };
-
-        // _logger.LogInformation("GUID: " + session.SessionId);
-
-        // //create session cookie
-        // var sessionCookieOpts = new CookieOptions
-        // {
-        //     // Domain = "localhost",
-        //     HttpOnly = true,
-        //     IsEssential = true,
-        //     SameSite = SameSiteMode.Lax
-        // };
-
-        // Response.Cookies.Append("session-id", session.SessionId, sessionCookieOpts);
-
-        // try {
-        //     await _sessionDao.DeleteAllUserSessions(user.Username);
-        //     await _sessionDao.SetSession(session);
-        // } catch(Exception e) {
-        //     _logger.LogDebug($"Failed to write session. Message: {e.Message}");
-        //     return StatusCode((int)HttpStatusCode.InternalServerError);
-        // }
-
-        // return Redirect(_urlSettings.Value.ClientBaseUrl + "/matches");
     }
 
     [HttpGet("login/{token}")]
@@ -266,8 +87,8 @@ public class LoginController : ControllerBase {
         try
         {
             await discordClient.LoginAsync(TokenType.Bearer, token);
-        } catch (Exception ex) {
-            return BadRequest(ex.Message + " login catch block " + token);
+        } catch (Exception e) {
+            return BadRequest(new { error = e.Message });
         }
 
         User? user;
@@ -287,7 +108,7 @@ public class LoginController : ControllerBase {
             }
         } catch(Exception e) {
             _logger.LogError(e.Message);
-            return StatusCode((int)HttpStatusCode.InternalServerError);
+            return StatusCode((int)HttpStatusCode.InternalServerError, new { error = e.Message });
         }
 
         //new session for user
@@ -314,7 +135,7 @@ public class LoginController : ControllerBase {
             await _sessionDao.SetSession(session);
         } catch(Exception e) {
             _logger.LogDebug($"Failed to write session. Message: {e.Message}");
-            return StatusCode((int)HttpStatusCode.InternalServerError);
+            return StatusCode((int)HttpStatusCode.InternalServerError, new { error = e.Message });
         }
 
         return Redirect(_urlSettings.Value.ClientBaseUrl + "/matches");
