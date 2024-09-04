@@ -9,7 +9,6 @@ using backend.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add the MongoDatabase Configuration values
 builder.Services.Configure<UrlSettings>(
     builder.Configuration.GetSection("Urls"));
 
@@ -32,45 +31,18 @@ builder.Services.AddHttpClient("discord", (service, client) => {
 
 builder.Services.AddDistributedMemoryCache();
 
-// Configure session options
-builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromSeconds(10);
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
-    options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Lax;
-});
-
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
         policy =>
         {
-            policy.WithOrigins("http://localhost:5173");
-            // policy.SetIsOriginAllowed(h => true);
-            // policy.AllowAnyOrigin();
+            if(builder.Configuration["AllowedOrigins"] is not null)
+                policy.WithOrigins(builder.Configuration["AllowedOrigins"]!);
             policy.AllowCredentials();
             policy.WithHeaders("Content-Type", "x-requested-with", "x-signalr-user-agent");
             policy.WithMethods("GET", "POST", "PUT", "DELETE");
-            //policy.AllowAnyHeader();
         });
 });
-
-//Add the JWT Auth Service
-// builder.Services.AddAuthentication(options => {
-//     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-//     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-// }).AddJwtBearer(options => {
-//     options.TokenValidationParameters = new TokenValidationParameters {
-//         ValidateIssuer = true,
-//         ValidateAudience = true,
-//         ValidateLifetime = true,
-//         ValidateIssuerSigningKey = true,
-//         ValidIssuer = "https://localhost:5068",
-//         ValidAudience = "https://localhost:5068",
-//         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("KeyThatIwillChangeEvenTuallyyyyyyyyyyyyyyyyyyyyyyyy"))
-//     };
-// });
 
 builder.Services.AddControllers();
 
@@ -93,8 +65,6 @@ app.UseHttpsRedirection();
 app.UseCors();
 
 app.UseAuthorization();
-
-app.UseSession();
 
 app.MapControllers();
 

@@ -23,7 +23,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <h1>Select a menu option or click on the Smatchup logo to see available matches! [DEV]</h1>
+        element: <h1>Select a menu option or click on the Smatchup logo to see available matches!</h1>
       },
       {
         path: "matches",

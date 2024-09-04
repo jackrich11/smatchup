@@ -16,18 +16,15 @@ public class SettingsController : ControllerBase {
     private readonly ILogger<SettingsController> _logger;
     private readonly ISettingsDao _settingsDao;
     private readonly ISessionDao _sessionDao;
-    private readonly IOptions<DatabaseSettings> _sett;
-
-    public SettingsController(ILogger<SettingsController> logger, IFactory factory, IOptions<DatabaseSettings> sett) {
+    public SettingsController(ILogger<SettingsController> logger, IFactory factory) {
         _logger = logger;
         _settingsDao = factory.GetSettingsDao();
         _sessionDao = factory.GetSessionDao();
-        _sett = sett;
     }
 
     [HttpGet("test")]
     public IActionResult TestEnv() {
-        return Ok(new { message = $"Conn string is {_sett.Value.ConnectionString}"});
+        return Ok(new { message = $"It's safe now! :)"});
     }
 
 
