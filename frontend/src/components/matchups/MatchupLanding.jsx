@@ -76,7 +76,7 @@ export default function MatchupLanding() {
 
     return (
     <>
-    <Box sx={{display: 'flex', flexDirection: 'column'}}>
+    <Box sx={{display: 'flex', flexDirection: 'column', padding: "3rem"}}>
         {matchups && matchups.map((m) => (!m.visitor && m.creator != currUser.Username && <Link onClick={unsubscribe} to={m.matchupId} key={m.creator} state={m}>{m.creator}</Link>))}
         <button onClick={create}>Create Matchup!</button>
     </Box>

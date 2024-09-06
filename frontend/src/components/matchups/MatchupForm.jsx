@@ -1,4 +1,4 @@
-import { Autocomplete, TextField } from "@mui/material";
+import { Autocomplete, Box, TextField } from "@mui/material";
 import Characters from "../../types/Characters";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -50,7 +50,8 @@ export default function MatchupForm() {
     }
 
     return (<>
-    <div className="matchup-form" >
+    <Box className="matchup-form" sx={{ display: "flex", flexDirection: "column", padding: 2, gap: 2, alignContent: "space-between" }}>
+        <h3>Create your matchup:</h3>
         <Autocomplete
         name="lookingFor"
         multiple
@@ -58,15 +59,11 @@ export default function MatchupForm() {
         id="multiple-limit-tags"
         options={Characters}
         getOptionLabel={(option) => option.name}
-        onChange={(event, newValue) => {
-            console.log(newValue)
-            setLookingFor(newValue)
-            console.log(lookingFor)
-        }}
+        onChange={(event, newValue) => {setLookingFor(newValue)}}
         renderInput={(params) => (
             <TextField {...params} label="Characters you are looking for." placeholder="Looking for..." />
         )}
-        sx={{ width: '500px' }}
+        // sx={{ width: '500px', padding: 2 }}
         />
         <Autocomplete
         name="canPlay"
@@ -75,22 +72,23 @@ export default function MatchupForm() {
         id="multiple-limit-tags"
         options={Characters}
         getOptionLabel={(option) => option.name}
-        onChange={(event, newValue) => {
-            setCanPlay(newValue)
-        }}
+        onChange={(event, newValue) => {setCanPlay(newValue)}}
         renderInput={(params) => (
             <TextField {...params} label="Characters you can play." placeholder="Can play..." />
         )}
-        sx={{ width: '500px' }}
+        // sx={{ width: '500px', padding:2 }}
         />
         {lookingFor.map(l => <TextField style={{display: "none"}} key={l.name} name={"LookingFor" + l.name} value={JSON.stringify(l)}></TextField>)}
         {canPlay.map(l => <TextField style={{display: "none"}} key={l.name} name={"CanPlay" + l.name} value={JSON.stringify(l)}></TextField>)}
 
-        <button onClick={createMatchup}>Create</button>
-        {matchupCreated && 
-        <p style={{ color: matchupCreated.success ? "green" : "red"}}>{matchupCreated.success ? "Successfully created matchup!" : matchupCreated.message}</p>
-        }
-    </div>
-    <button onClick={close}>Close</button>
+        <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-evenly"}}>
+            <button onClick={close}>Close</button>
+            <button onClick={createMatchup}>Create!</button>
+            {matchupCreated && 
+            <p style={{ color: matchupCreated.success ? "green" : "red"}}>{matchupCreated.success ? "Successfully created matchup!" : matchupCreated.message}</p>
+            }
+        </Box>
+    </Box>
+    
     </>)
 }

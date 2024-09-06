@@ -3,6 +3,7 @@ import axios from "axios";
 import { Outlet, useLoaderData } from "react-router-dom";
 import Header from "./components/Header";
 import { getEnvVar } from "./utils";
+import { Box } from "@mui/material";
 
 export async function loader() {
     try {
@@ -27,9 +28,14 @@ export default function User() {
                 isLoggedIn={isLoggedIn}
             />
         </div>
-        {isLoggedIn
-        ? <Outlet context={currUser} />
-        : <h1>Login with your Discord account to see what matches are available!</h1>}
+        <Box sx={{
+            display: "flex",
+            justifyContent: "center"
+        }}>
+            {isLoggedIn
+            ? <Outlet context={currUser} />
+            : <h1>Login with your Discord account to see what matches are available!</h1>}
+        </Box>
         </>
     )
 }
