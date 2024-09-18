@@ -1,12 +1,16 @@
+import { Box, Typography } from "@mui/material";
+
 export default function OwnedMatchup({ matchup, visitor }) {
 
     return (
         <>
-        {matchup.isCreator && !visitor && 
-        <p>Waiting for someone to join the matchup...</p>
-        }
-        {visitor && 
-        <p>{visitor} has joined the matchup!</p>}
+        <Box>
+            {matchup.isCreator && !visitor && 
+            <Typography>Waiting for someone to join the matchup...</Typography>
+            }
+            {visitor && 
+            <Typography>{visitor} has joined the matchup!</Typography>}
+        </Box>
         </>
     )
 }

@@ -1,5 +1,5 @@
 import { useNavigate, Link, useOutletContext } from "react-router-dom"
-import { Box } from "@mui/material"
+import { Box, Button, Stack, useTheme } from "@mui/material"
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr"
@@ -24,7 +24,7 @@ const getMatchups = async (setMatchups) => {
 
 export default function MatchupLanding() {
     const nav = useNavigate()
-    // const { currUser, connection } = useOutletContext()
+    const theme = useTheme()
     const { currUser } = useOutletContext()
     const [matchups, setMatchups] = useState([]);
     const [connection, setConnection] = useState()
@@ -76,10 +76,14 @@ export default function MatchupLanding() {
 
     return (
     <>
-    <Box sx={{display: 'flex', flexDirection: 'column', padding: "3rem"}}>
+    <Stack spacing={1}>
+    {/* <Box sx={{display: 'flex', flexDirection: 'column', padding: "3rem", }}> */}
         {matchups && matchups.map((m) => (!m.visitor && m.creator != currUser.Username && <Link onClick={unsubscribe} to={m.matchupId} key={m.creator} state={m}>{m.creator}</Link>))}
-        <button onClick={create}>Create Matchup!</button>
-    </Box>
+        {matchups.length == 0  && 
+            <Box sx={{ typography: "body1", padding: 3}}>No matchups found...</Box>}
+        <Button variant='outlined' onClick={create} >Create Matchup!</Button>
+    {/* </Box> */}
+    </Stack>
     </>
     )
 }

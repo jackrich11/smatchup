@@ -1,4 +1,4 @@
-import { Autocomplete, Box, TextField } from "@mui/material";
+import { Autocomplete, Box, Button, Stack, TextField, Typography } from "@mui/material";
 import Characters from "../../types/Characters";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -50,6 +50,7 @@ export default function MatchupForm() {
     }
 
     return (<>
+    {/* <Stack spacing={3}> */}
     <Box className="matchup-form" sx={{ display: "flex", flexDirection: "column", padding: 2, gap: 2, alignContent: "space-between" }}>
         <h3>Create your matchup:</h3>
         <Autocomplete
@@ -63,7 +64,7 @@ export default function MatchupForm() {
         renderInput={(params) => (
             <TextField {...params} label="Characters you are looking for." placeholder="Looking for..." />
         )}
-        // sx={{ width: '500px', padding: 2 }}
+        sx={{ width: '500px'}}
         />
         <Autocomplete
         name="canPlay"
@@ -76,19 +77,20 @@ export default function MatchupForm() {
         renderInput={(params) => (
             <TextField {...params} label="Characters you can play." placeholder="Can play..." />
         )}
-        // sx={{ width: '500px', padding:2 }}
+        sx={{ width: '500px' }}
         />
         {lookingFor.map(l => <TextField style={{display: "none"}} key={l.name} name={"LookingFor" + l.name} value={JSON.stringify(l)}></TextField>)}
         {canPlay.map(l => <TextField style={{display: "none"}} key={l.name} name={"CanPlay" + l.name} value={JSON.stringify(l)}></TextField>)}
 
         <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-evenly"}}>
-            <button onClick={close}>Close</button>
-            <button onClick={createMatchup}>Create!</button>
-            {matchupCreated && 
-            <p style={{ color: matchupCreated.success ? "green" : "red"}}>{matchupCreated.success ? "Successfully created matchup!" : matchupCreated.message}</p>
-            }
+            <Button variant="outlined" onClick={createMatchup}>Create!</Button>
+            <Button variant="outlined" color="secondary" onClick={close}>Close</Button>
         </Box>
+        {matchupCreated && 
+            <Typography color={matchupCreated.success ? "success" : "error"} >{matchupCreated.success ? "Successfully created matchup!" : matchupCreated.message}</Typography>
+            }
     </Box>
+    {/* </Stack> */}
     
     </>)
 }

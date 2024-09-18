@@ -12,12 +12,8 @@ export default function Matchups() {
     <Box sx={{
         display: "flex",
         flexDirection: "column",
-        border: 3,
-        borderRadius: "13px",
-        borderColor: "orange",
-        padding: "3rem",
+        paddingX: "3rem"
     }}>
-        <h1>Matches page for {currUser.Username}</h1>
         <Outlet context={{ currUser }} />
     </Box>
     </>)

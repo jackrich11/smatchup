@@ -11,15 +11,13 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { Tooltip } from '@mui/material';
+import { Tooltip, useTheme } from '@mui/material';
 import { getEnvVar } from '../utils';
 
 const pages = ['Matches', 'Stats', 'Settings'];
 
-
-
-
 function Header({ currUser, isLoggedIn }) {
+  const theme = useTheme()
   const nav = useNavigate()
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -45,14 +43,12 @@ function Header({ currUser, isLoggedIn }) {
 
   return (
     <div className='header'>
-        <AppBar sx={{ bgcolor: "inherit" }}>
+        <AppBar sx={{ bgcolor: theme.palette.primary }}>
         <Container maxWidth="xl">
             <Toolbar disableGutters>
             <Typography
             variant="h6"
             noWrap
-            component="a"
-            href={isLoggedIn ? "matches" : ""}
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -140,7 +136,7 @@ function Header({ currUser, isLoggedIn }) {
                 variant='outline' 
                 href={getEnvVar("DISCORD_URL")}
                 sx={{
-                    bgcolor: "indigo",
+                    bgcolor: "#6320EE",
                     margin: 3,
                     ':hover': {
                         bgcolor: 'gray',
@@ -152,7 +148,7 @@ function Header({ currUser, isLoggedIn }) {
             </Button>}
 
             {isLoggedIn && 
-            <Box sx={{ flexGrow: 0 }}>
+            <Box sx={{ flexGrow: 0}}>
                 <Tooltip title={"logged in as " + currUser.Username}>
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                         <Avatar alt={currUser.username} src={currUser.AvatarUrl} />

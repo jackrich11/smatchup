@@ -1,10 +1,14 @@
+import { Box, Typography } from "@mui/material";
+
 export default function VisitingMatchup({ matchup, joined }) {
 
     return (
         <>
-        {joined ?
-        <p>In matchup with {matchup && matchup.creator}</p> :
-        <p>Joining matchup...</p>}
+        <Box>
+            {joined ?
+            <Typography>In matchup with {matchup && matchup.creator}</Typography> :
+            <Typography>Joining matchup...</Typography>}
+        </Box>
         </>
     )
 }

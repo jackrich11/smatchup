@@ -13,7 +13,9 @@ import Settings from './views/Settings.jsx'
 import Matchup from './components/matchups/Matchup.jsx'
 import UpdateSettingsForm from './components/settings/UpdateSettingsForm.jsx'
 import CurrentSettings from './components/settings/CurrentSettings.jsx'
-import { getEnvVar } from './utils.js'
+import "./theme.js"
+import { createTheme, ThemeProvider } from '@mui/material'
+import { theme } from './theme.js'
 
 const router = createBrowserRouter([
   {
@@ -71,7 +73,7 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  // <React.StrictMode>
-    <RouterProvider router={router} />
-  // </React.StrictMode>,
+    <ThemeProvider theme={createTheme(theme)}>
+      <RouterProvider router={router} />
+    </ThemeProvider>
 )

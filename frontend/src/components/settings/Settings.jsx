@@ -1,9 +1,13 @@
+import { Stack, Typography } from "@mui/material";
+
 export default function Settings({ settings }) {
     return (
     <>
-    <p>Region: {settings.region}</p>
-    <p>Skill Level: {settings.playerSkillLevel}</p>
-    <p>Has Delay Mod: {settings.hasDelayMod ? "Yes" : "No"}</p>
+    <Stack spacing={1}>
+        <Typography>Region: {settings.region}</Typography>
+        <Typography>Skill Level: {settings.playerSkillLevel}</Typography>
+        <Typography>Has Delay Mod: {settings.hasDelayMod ? "Yes" : "No"}</Typography>
+        </Stack>
     </>
     )
 }

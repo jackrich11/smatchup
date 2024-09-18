@@ -1,6 +1,6 @@
 import { useLocation, useNavigate, useOutlet, useOutletContext } from "react-router-dom";
 import axios from "axios";
-import { Button } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { useEffect, useState } from "react";
 import OwnedMatchup from "./OwnedMatchup";
@@ -96,7 +96,6 @@ export default function Matchup() {
             }
         });
 
-        //TODO: Get EXIT functionality working
         conn.on("ExitMatchup", (username) => {
             if(matchup.isCreator) {
                 //In YOUR OWN matchup
@@ -142,10 +141,12 @@ export default function Matchup() {
   
     return (
     <>
-    {matchup.isCreator ?
-    <OwnedMatchup matchup={matchup} visitor={visitor}/> :
-    <VisitingMatchup matchup={matchup} joined={joined}/>}
-    <Button onClick={exit}>Exit</Button>
+    <Stack spacing={3}>
+        {matchup.isCreator ?
+        <OwnedMatchup matchup={matchup} visitor={visitor}/> :
+        <VisitingMatchup matchup={matchup} joined={joined}/>}
+        <Button variant="outlined" onClick={exit}>Exit</Button>
+    </Stack>
     </>
     );
   }
