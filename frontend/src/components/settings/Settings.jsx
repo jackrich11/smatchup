@@ -11,3 +11,10 @@ export default function Settings({ settings }) {
     </>
     )
 }
+
+/**
+ * TODO:
+ * Continue to look for base react elements and replace them with MUI elements.
+ * Use stacks to make things look neat, make buttons all the same variant and the correct color
+ * Figure out how to make the website responsive
+ */

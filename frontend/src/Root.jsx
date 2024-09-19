@@ -3,7 +3,7 @@ import axios from "axios";
 import { Outlet, useLoaderData } from "react-router-dom";
 import Header from "./components/Header";
 import { getEnvVar } from "./utils";
-import { Box, useTheme } from "@mui/material";
+import { Box, Grid, Typography, useTheme } from "@mui/material";
 
 export async function loader() {
     try {
@@ -23,29 +23,32 @@ export default function User() {
 
     return (
         <>
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-            <Box sx={{
-                margin: '5rem'
-            }}>
+        <Grid container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyItems: 'center'}}>
+            <Grid sx={{ margin: '5rem' }}>
                 <Header 
                     currUser={currUser}
                     isLoggedIn={isLoggedIn}
                 />
-            </Box>
-            <Box sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                border: 1,
-                borderRadius: '13px',
-                borderColor: 'gray',
-                padding: '3rem',
-                width: '30rem'
-            }}>
+            </Grid>
                 {isLoggedIn
-                ? <Outlet context={currUser} />
-                : <h1>Login with your Discord account to see what matches are available!</h1>}
-            </Box>
-        </Box>
+                ? <Grid sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyItems: 'center',
+                    border: 1,
+                    borderRadius: '13px',
+                    borderColor: 'gray',
+                    padding: '3rem',
+                    minWidth: '30rem',
+                    minHeight: '15rem'
+                  }}>
+                    <Outlet context={currUser} />
+                  </Grid>
+                : <Grid spacing={12}>
+                    <Typography>Login with your Discord account to see what matches are available!</Typography>
+                  </ Grid>}
+            
+        </Grid>
         </>
     )
 }

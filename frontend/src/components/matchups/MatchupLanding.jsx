@@ -1,9 +1,10 @@
 import { useNavigate, Link, useOutletContext } from "react-router-dom"
-import { Box, Button, Stack, useTheme } from "@mui/material"
+import { Box, Button, Grid, Stack, useTheme } from "@mui/material"
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr"
 import { getEnvVar } from "../../utils"
+import { Grade } from "@mui/icons-material"
 
 const getMatchups = async (setMatchups) => {
     try {
@@ -76,14 +77,23 @@ export default function MatchupLanding() {
 
     return (
     <>
-    <Stack spacing={1}>
-    {/* <Box sx={{display: 'flex', flexDirection: 'column', padding: "3rem", }}> */}
-        {matchups && matchups.map((m) => (!m.visitor && m.creator != currUser.Username && <Link onClick={unsubscribe} to={m.matchupId} key={m.creator} state={m}>{m.creator}</Link>))}
-        {matchups.length == 0  && 
-            <Box sx={{ typography: "body1", padding: 3}}>No matchups found...</Box>}
-        <Button variant='outlined' onClick={create} >Create Matchup!</Button>
-    {/* </Box> */}
-    </Stack>
+    <Grid direction="column" alignItems={"center"} container >
+        <Grid spacing={12}>
+            <Stack spacing={1}>
+                {matchups && matchups.map((m) => (!m.visitor && m.creator != currUser.Username && <Link onClick={unsubscribe} to={m.matchupId} key={m.creator} state={m}>{m.creator}</Link>))}
+            </Stack>
+        </Grid>
+        <Grid spacing={12}>
+            <Box sx={{ typography: "body1", padding: 3}}>
+                No matchups found...
+            </Box>
+        </Grid>
+        <Grid spacing={12}>
+            <Button variant='outlined' onClick={create} >
+                Create Matchup!
+            </Button>
+        </Grid>
+    </Grid>
     </>
     )
 }
