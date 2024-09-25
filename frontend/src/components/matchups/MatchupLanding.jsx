@@ -77,18 +77,18 @@ export default function MatchupLanding() {
 
     return (
     <>
-    <Grid direction="column" alignItems={"center"} container >
-        <Grid spacing={12}>
+    <Grid container direction="column" alignItems={"center"} >
+        <Grid >
             <Stack spacing={1}>
                 {matchups && matchups.map((m) => (!m.visitor && m.creator != currUser.Username && <Link onClick={unsubscribe} to={m.matchupId} key={m.creator} state={m}>{m.creator}</Link>))}
             </Stack>
         </Grid>
-        <Grid spacing={12}>
+        <Grid >
             <Box sx={{ typography: "body1", padding: 3}}>
                 No matchups found...
             </Box>
         </Grid>
-        <Grid spacing={12}>
+        <Grid >
             <Button variant='outlined' onClick={create} >
                 Create Matchup!
             </Button>

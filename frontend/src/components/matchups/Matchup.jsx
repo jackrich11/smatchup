@@ -141,7 +141,7 @@ export default function Matchup() {
   
     return (
     <>
-    <Stack spacing={3}>
+    <Stack spacing={3} >
         {matchup.isCreator ?
         <OwnedMatchup matchup={matchup} visitor={visitor}/> :
         <VisitingMatchup matchup={matchup} joined={joined}/>}

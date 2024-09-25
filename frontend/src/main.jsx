@@ -4,9 +4,8 @@ import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Root from './Root.jsx'
 import { loader as rootLoader } from './Root.jsx'
-import MatchupForm, { action as createMatchupAction } from './components/matchups/MatchupForm.jsx'
+import MatchupForm from './components/matchups/MatchupForm.jsx'
 import MatchupLanding from './components/matchups/MatchupLanding.jsx'
-// import { loader as matchupLoader } from './components/Matchup.jsx'
 import Matchups from './views/Matchups.jsx'
 import Stats from './views/Stats.jsx'
 import Settings from './views/Settings.jsx'
@@ -14,8 +13,9 @@ import Matchup from './components/matchups/Matchup.jsx'
 import UpdateSettingsForm from './components/settings/UpdateSettingsForm.jsx'
 import CurrentSettings from './components/settings/CurrentSettings.jsx'
 import "./theme.js"
-import { createTheme, ThemeProvider } from '@mui/material'
+import { createTheme, ThemeProvider, Typography } from '@mui/material'
 import { theme } from './theme.js'
+import About from './views/About.jsx'
 
 const router = createBrowserRouter([
   {
@@ -52,6 +52,10 @@ const router = createBrowserRouter([
           console.log("in stats loader")
           return {}
         }
+      },
+      {
+        path: "about",
+        element: <About />,
       },
       {
         path: "settings",

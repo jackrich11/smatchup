@@ -10,11 +10,11 @@ import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Tooltip, useTheme } from '@mui/material';
 import { getEnvVar } from '../utils';
 
-const pages = ['Matches', 'Stats', 'Settings'];
+const pages = ['Matches', 'Settings', 'About'];
 
 function Header({ currUser, isLoggedIn }) {
   const theme = useTheme()

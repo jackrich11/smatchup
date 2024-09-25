@@ -1,7 +1,6 @@
-import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
-import { Box, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import * as React from 'react';
-import { Link, Outlet, useLoaderData, useOutletContext } from 'react-router-dom';
+import { Outlet, useOutletContext } from 'react-router-dom';
 
 export default function Matchups() {
     const currUser = useOutletContext()
@@ -9,14 +8,7 @@ export default function Matchups() {
     console.log(currUser)
 
     return (<>
-    {/* <Box sx={{
-        display: "flex",
-        flexDirection: "column",
-        paddingX: "3rem"
-    }}>
-        <Outlet context={{ currUser }} />
-    </Box> */}
-    <Grid container>
+    <Grid container justifyContent={"center"}>
         <Outlet context={{ currUser }} />
     </Grid>
     </>)

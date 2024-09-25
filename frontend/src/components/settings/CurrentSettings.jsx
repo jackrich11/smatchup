@@ -27,7 +27,7 @@ export default function CurrentSettings() {
 
     return (
         <>
-        <Stack spacing={3}>
+        <Stack spacing={3} justifyContent={"center"}>
             {settings ?
             <Stack spacing={1}>
                 <Typography variant="h6">Settings for {currUser.Username}</Typography>
