@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { regions }from "../../types/Regions"
 import { skillLevels } from "../../types/SkillLevels"
-import { Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select } from "@mui/material"
+import { Button, Checkbox, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, Stack } from "@mui/material"
 import { useLocation, useNavigate, useOutletContext } from "react-router-dom"
 import axios from "axios"
 import { getEnvVar } from "../../utils"
@@ -46,44 +46,50 @@ export default function UpdateSettingsForm() {
 
     return (
     <>
-    <FormControl fullWidth>
-    <InputLabel id="demo-simple-select-label">Region</InputLabel>
-    <Select
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        value={region}
-        label="Region"
-        onChange={(e) => setRegion(e.target.value)}
-    >
-        {regions.map((r) => 
-        <MenuItem key={r} value={r}>{r}</MenuItem>)}
-    </Select>
-    </FormControl>
-    <FormControl fullWidth>
-    <InputLabel id="demo-simple-select-label">Skill Level</InputLabel>
-    <Select
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        value={skillLevel}
-        label="Skill Level"
-        onChange={(e) => setSkillLevel(e.target.value)}
-    >
-        {skillLevels.map((s) => 
-        <MenuItem key={s} value={s}>{s}</MenuItem>)}
-    </Select>
-    </FormControl>
-    <FormControlLabel
-        value="Delay Mod"
-        control={<Checkbox
-        checked={hasDelayMod}
-        onChange={(e) => setHasDelayMod(e.target.checked)}
-        inputProps={{ 'aria-label': 'controlled' }}
-        />}
-        label="Has Delay Mod"
-        labelPlacement="start"
-    />
-    <Button onClick={submit}>Submit</Button>
-    <Button onClick={close}>Close</Button>
+    <Grid container direction={"column"}>
+        <Stack spacing={1.5} alignItems={"flex-start"}>
+            <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Region</InputLabel>
+            <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={region}
+                label="Region"
+                onChange={(e) => setRegion(e.target.value)}
+            >
+                {regions.map((r) => 
+                <MenuItem key={r} value={r}>{r}</MenuItem>)}
+            </Select>
+            </FormControl>
+            <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Skill Level</InputLabel>
+            <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={skillLevel}
+                label="Skill Level"
+                onChange={(e) => setSkillLevel(e.target.value)}
+            >
+                {skillLevels.map((s) => 
+                <MenuItem key={s} value={s}>{s}</MenuItem>)}
+            </Select>
+            </FormControl>
+            <FormControlLabel
+                value="Delay Mod"
+                control={<Checkbox
+                checked={hasDelayMod}
+                onChange={(e) => setHasDelayMod(e.target.checked)}
+                inputProps={{ 'aria-label': 'controlled' }}
+                />}
+                label="Has Delay Mod"
+                labelPlacement="start"
+            />
+        </Stack>
+        <Stack direction="row" spacing={1} >
+            <Button variant="outlined" onClick={submit}>Submit</Button>
+            <Button variant="outlined" color="secondary" onClick={close}>Close</Button>
+        </Stack>
+    </Grid>
     </>
     )
 }
