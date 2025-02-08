@@ -1,7 +1,7 @@
 backend/appsettings*
 
 backend/bin
-
+.DS_Store
 backend/obj
 backend/.DS_Store
 backend/.azure
