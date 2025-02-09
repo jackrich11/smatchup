@@ -32,6 +32,11 @@ public class LoginController : ControllerBase {
         _urlSettings = urlSettings;
     }
 
+    [HttpGet("test")]
+    public ActionResult TestResp() {
+        return Ok("This request was accepted");
+    }
+
     [HttpGet("user")]
     public async Task<ActionResult<User>> GetCurrentUser() {
         try {
