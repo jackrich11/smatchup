@@ -32,7 +32,6 @@ public class LoginController : ControllerBase {
         _urlSettings = urlSettings;
     }
 
-
     [HttpGet("user")]
     public async Task<ActionResult<User>> GetCurrentUser() {
         try {
