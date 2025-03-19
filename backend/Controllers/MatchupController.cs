@@ -5,6 +5,7 @@ using backend.Factories;
 using backend.Hubs;
 using backend.Models;
 using backend.Models.Requests;
+using backend.Types;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
@@ -32,7 +33,7 @@ public class MatchupController : ControllerBase {
 
         _logger.LogInformation($"In matchup controller for {matchupId}");
 
-        var sessionId = Request.Cookies["session-id"];
+        var sessionId = Request.Cookies[Strings.SESSION_ID];
         if(sessionId is not null && _sessionDao.GetSession(sessionId) is not null) {
             try {
                 matchup = await _matchupDao.GetMatchup(matchupId);
@@ -51,13 +52,10 @@ public class MatchupController : ControllerBase {
     public async Task<ActionResult<List<Matchup>>> GetAllMatchups() {
         List<Matchup> matchups;
 
-        var sessionId = Request.Cookies["session-id"];
+        var sessionId = Request.Cookies[Strings.SESSION_ID];
         if(sessionId is not null && _sessionDao.GetSession(sessionId) is not null) {
             try {
                 matchups = await _matchupDao.GetAllMatchups();
-
-                // _logger.LogInformation($"Count: {matchups.Count}");
-
             } catch(Exception e) {
                 _logger.LogError($"GET-/api/matchups: {e.Message}");
                 return StatusCode((int)HttpStatusCode.InternalServerError);
@@ -70,12 +68,8 @@ public class MatchupController : ControllerBase {
     }
 
     [HttpPost("matchups")]
-    public async Task<ActionResult> AddMatchup(CreateMatchupRequest req) {
-
-
-        _logger.LogInformation("REQ: " + req.ToString());
-                
-        string? sessionId = Request.Cookies["session-id"];
+    public async Task<ActionResult> AddMatchup(CreateMatchupRequest req) {                
+        string? sessionId = Request.Cookies[Strings.SESSION_ID];
         Session? session;
         if(sessionId is not null && (session = await _sessionDao.GetSession(sessionId)) is not null) {
             if((await _matchupDao.GetUserMatchup(session.UserID)) != null) {
@@ -93,7 +87,7 @@ public class MatchupController : ControllerBase {
                 await _matchupDao.SetMatchup(matchup);
 
                 try {
-                    await _matchupHubContext.Clients.Group("MATCHUPS").SendAsync("MatchupsUpdated");
+                    await _matchupHubContext.Clients.Group(Strings.MATCHUPS_GROUP).SendAsync(Strings.MATCHUPS_UPDATED);
                 } catch (Exception e) {
                     _logger.LogError("ERROR alerting of matchup being added: " + e.Message);
                 }
@@ -114,13 +108,13 @@ public class MatchupController : ControllerBase {
     public async Task<ActionResult> AddVisitorToMatchup(string matchupId, string visitor) {
         _logger.LogInformation("IN ADDVISITOR ENDPOINT for: " + visitor);
 
-        var sessionId = Request.Cookies["session-id"];
+        var sessionId = Request.Cookies[Strings.SESSION_ID];
         if(sessionId is not null && _sessionDao.GetSession(sessionId) is not null) {
             try {
                 await _matchupDao.AddVisitorToMatchup(visitor, matchupId);
 
                 try {
-                    await _matchupHubContext.Clients.Group("MATCHUPS").SendAsync("MatchupsUpdated");
+                    await _matchupHubContext.Clients.Group(Strings.MATCHUPS_GROUP).SendAsync(Strings.MATCHUPS_UPDATED);
                 } catch (Exception e) {
                     _logger.LogError("ERROR alerting of matchup being updated: " + e.Message);
                 }
@@ -140,13 +134,13 @@ public class MatchupController : ControllerBase {
     public async Task<ActionResult> RemoveVisitorFromMatchup(string matchupId) {
         _logger.LogInformation("IN REMOVEVISITOR ENDPOINT for: " + matchupId);
 
-        var sessionId = Request.Cookies["session-id"];
+        var sessionId = Request.Cookies[Strings.SESSION_ID];
         if(sessionId is not null && _sessionDao.GetSession(sessionId) is not null) {
             try {
                 await _matchupDao.RemoveVisitorFromMatchup(matchupId);
 
                 try {
-                    await _matchupHubContext.Clients.All.SendAsync("MatchupsUpdated");
+                    await _matchupHubContext.Clients.All.SendAsync(Strings.MATCHUPS_UPDATED);
                 } catch (Exception e) {
                     _logger.LogError("ERROR alerting of matchup being updated: " + e.Message);
                 }
@@ -165,14 +159,14 @@ public class MatchupController : ControllerBase {
     [HttpDelete("matchups/{matchupId}")]
     public async Task<ActionResult> DeleteMatchup(string matchupId) {
         _logger.LogInformation("IN DELETE MATCHUP ENDPOINT");
-        var sessionId = Request.Cookies["session-id"];
+        var sessionId = Request.Cookies[Strings.SESSION_ID];
         if(sessionId is not null && _sessionDao.GetSession(sessionId) is not null) {
             _logger.LogInformation($"Deleting matchup : {matchupId}");
             try {
                 await _matchupDao.DeleteMatchup(matchupId);
 
                 try {
-                    await _matchupHubContext.Clients.Group("MATCHUPS").SendAsync("MatchupsUpdated");
+                    await _matchupHubContext.Clients.Group(Strings.MATCHUPS_GROUP).SendAsync(Strings.MATCHUPS_UPDATED);
                     _logger.LogInformation("MATCHUP WAS DELETED UPDATE");
                 } catch (Exception e) {
                     _logger.LogError("ERROR alerting of matchup being deleted: " + e.Message);

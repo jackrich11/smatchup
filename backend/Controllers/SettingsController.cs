@@ -9,6 +9,7 @@ using System.Net;
 using backend.Models.Requests;
 using Microsoft.Extensions.Options;
 using backend.Settings;
+using backend.Types;
 
 [ApiController]
 [Route("api")]
@@ -28,7 +29,7 @@ public class SettingsController : ControllerBase {
 
         _logger.LogInformation($"In settings controller for {username}");
 
-        var sessionId = Request.Cookies["session-id"];
+        var sessionId = Request.Cookies[Strings.SESSION_ID];
         if(sessionId is not null && _sessionDao.GetSession(sessionId) is not null) {
             try {
                 settings = await _settingsDao.GetSettings(username);
@@ -47,7 +48,7 @@ public class SettingsController : ControllerBase {
 
         _logger.LogInformation($"In set settings controller for {settingsReq.Username}");
 
-        var sessionId = Request.Cookies["session-id"];
+        var sessionId = Request.Cookies[Strings.SESSION_ID];
         if(sessionId is not null && _sessionDao.GetSession(sessionId) is not null) {
             Settings newSettings = new() {
                 Username = settingsReq.Username,

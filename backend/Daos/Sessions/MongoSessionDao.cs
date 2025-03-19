@@ -1,4 +1,5 @@
 using backend.Models;
+using backend.Types;
 using MongoDB.Driver;
 
 namespace backend.Daos.Sessions;
@@ -9,7 +10,7 @@ public class MongoSessionDao : ISessionDao
 
     public MongoSessionDao(MongoClient client, string databaseName) {
         var mongoDatabase = client.GetDatabase(databaseName);
-        _sessionCollection = mongoDatabase.GetCollection<Session>("sessions");
+        _sessionCollection = mongoDatabase.GetCollection<Session>(Strings.SESSIONS_COLLECTION_NAME);
     }
     public async Task DeleteSession(string sessionId)
     {

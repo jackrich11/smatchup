@@ -11,6 +11,7 @@ using System.Text.Json;
 using System.Net;
 using Microsoft.Extensions.Options;
 using backend.Setting;
+using backend.Types;
 
 namespace backend.Controllers;
 
@@ -26,7 +27,7 @@ public class LoginController : ControllerBase {
 
     public LoginController(ILogger<LoginController> logger, IHttpClientFactory client, IFactory factory, IOptions<UrlSettings> urlSettings) {
         _logger = logger;
-        _client = client.CreateClient("discord");
+        _client = client.CreateClient(Strings.DISCORD);
         _userDao = factory.GetUserDao();
         _sessionDao = factory.GetSessionDao();
         _urlSettings = urlSettings;
@@ -35,7 +36,7 @@ public class LoginController : ControllerBase {
     [HttpGet("user")]
     public async Task<ActionResult<User>> GetCurrentUser() {
         try {
-            var sessionId = Request.Cookies["session-id"];
+            var sessionId = Request.Cookies[Strings.SESSION_ID];
             if(sessionId is not null) {
                 var session = await _sessionDao.GetSession(sessionId);
 
@@ -56,16 +57,16 @@ public class LoginController : ControllerBase {
 
         TokenResponse? tokenResp;
         try {
-            HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, "token")
+            HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, Strings.TOKEN)
             {
-                Content = new FormUrlEncodedContent(new[] {
-                    new KeyValuePair<string, string>("grant_type", "authorization_code"),
-                    new KeyValuePair<string, string>("code", code),
-                    new KeyValuePair<string, string>("redirect_uri", _urlSettings.Value.ServerBaseUrl + "/api/auth/callback"),
-                })
+                Content = new FormUrlEncodedContent([
+                    new KeyValuePair<string, string>(Strings.GRANT_TYPE, Strings.AUTHORIZATION_CODE),
+                    new KeyValuePair<string, string>(Strings.CODE_KEY, code),
+                    new KeyValuePair<string, string>(Strings.REDIRECT_URI, _urlSettings.Value.ServerBaseUrl + Strings.CALLBACK_ENDPOINT),
+                ])
             };
 
-            req.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
+            req.Content.Headers.ContentType = new MediaTypeHeaderValue(Strings.URL_FORM_MEDIA_TYPE);
 
             var res = await _client.SendAsync(req);
 
@@ -78,7 +79,7 @@ public class LoginController : ControllerBase {
             return BadRequest(new { error = e.Message });
         }
 
-        return Redirect(_urlSettings.Value.ServerBaseUrl + "/api/login/" + tokenResp!.access_token);
+        return Redirect(_urlSettings.Value.ServerBaseUrl + Strings.LOGIN_ENDPOINT + tokenResp!.access_token);
     }
 
     [HttpGet("login/{token}")]
@@ -128,7 +129,7 @@ public class LoginController : ControllerBase {
             Secure = true
         };
 
-        Response.Cookies.Append("session-id", session.SessionId, sessionCookieOpts);
+        Response.Cookies.Append(Strings.SESSION_ID, session.SessionId, sessionCookieOpts);
 
         try {
             await _sessionDao.DeleteAllUserSessions(user.Username);
@@ -138,6 +139,6 @@ public class LoginController : ControllerBase {
             return StatusCode((int)HttpStatusCode.InternalServerError, new { error = e.Message });
         }
 
-        return Redirect(_urlSettings.Value.ClientBaseUrl + "/matches");
+        return Redirect(_urlSettings.Value.ClientBaseUrl + Strings.MATCHES_ENDPOINT);
     }
 }
