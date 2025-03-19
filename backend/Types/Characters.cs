@@ -1,3 +1,4 @@
+namespace backend.Types;
 public enum Character {
     Mario,
     DonkeyKong,
