@@ -1,4 +1,5 @@
 using backend.Models;
+using backend.Types;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
@@ -10,7 +11,7 @@ public class MongoUserDao : IUserDao
     public MongoUserDao(MongoClient client, string databaseName) {
         var mongoDatabase = client.GetDatabase(databaseName);
 
-        _userCollection = mongoDatabase.GetCollection<User>("users");
+        _userCollection = mongoDatabase.GetCollection<User>(Strings.USERS_COLLECTION_NAME);
     }
     public async Task<List<User>> GetUsers() =>
         await _userCollection.Find(_ => true).ToListAsync();

@@ -3,6 +3,7 @@ namespace backend.Daos.Sessions;
 using MongoDB.Driver;
 using backend.Daos.Settings;
 using backend.Models;
+using backend.Types;
 
 public class MongoSettingsDao : ISettingsDao
 {
@@ -10,7 +11,7 @@ public class MongoSettingsDao : ISettingsDao
 
     public MongoSettingsDao(MongoClient client, string databaseName) {
         var mongoDatabase = client.GetDatabase(databaseName);
-        _settingsCollection = mongoDatabase.GetCollection<Settings>("settings");
+        _settingsCollection = mongoDatabase.GetCollection<Settings>(Strings.SETTINGS_COLLECTION_NAME);
     }
 
     public async Task<Settings> GetSettings(string username)

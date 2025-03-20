@@ -1,4 +1,5 @@
 using backend.Models;
+using backend.Types;
 using MongoDB.Driver;
 
 namespace backend.Daos.Matchups;
@@ -9,7 +10,7 @@ public class MongoMatchupDao : IMatchupDao
 
     public MongoMatchupDao(MongoClient client, string databaseName) {
         var mongoDatabase = client.GetDatabase(databaseName);
-        _matchupCollection = mongoDatabase.GetCollection<Matchup>("matchups");
+        _matchupCollection = mongoDatabase.GetCollection<Matchup>(Strings.MATCHUPS_COLLECTION_NAME);
     }
 
     public async Task AddVisitorToMatchup(string visitor, string matchupId) {
